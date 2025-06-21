@@ -48,11 +48,11 @@
                     <button id="sitemessage" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="icon-megaphone"></i> </button>
                     <div class="dropdown-menu" role="menu" aria-labelledby="sitemessage">
                         <ul>
-                            <li class="first"><span class="time">25-06-25 </span><a href="detail.html">中考必胜！</a></li>
-                            <li><span class="time">25-06-01 </span><a href="detail.html">儿童节快乐！</a></li>
-                            <li><span class="time">25-05-31 </span><a href="detail.html">端午节快乐！</a></li>
-                            <li><span class="time">25-05-01 </span><a href="detail.html">劳动节快乐！</a></li>
-                            <li><span class="time">25-01-28 </span><a href="detail.html">2025年新年快乐！</a></li>
+                            <li class="first"><span class="time">25-06-25 </span><a href="#">中考必胜！</a></li>
+                            <li><span class="time">25-06-01 </span><a href="#">儿童节快乐！</a></li>
+                            <li><span class="time">25-05-31 </span><a href="#">端午节快乐！</a></li>
+                            <li><span class="time">25-05-01 </span><a href="#">劳动节快乐！</a></li>
+                            <li><span class="time">25-01-28 </span><a href="#">2025年新年快乐！</a></li>
                         </ul>
                         <div class="more-messages"><a href="https://weibo.com/">更多</a></div>
                     </div>
@@ -77,11 +77,11 @@
                         <div class="ajax-load-con content excerpt-one">
                             <div class="content-box posts-image-box">
                                 <div class="posts-default-title">
-                                    <div class="post-entry-categories"><a href='detail.html'>科技</a><a href='detail.html'>日常</a></div>
-                                    <h2><a href="detail.html" title="如何做一个可以回复指令的TG机器人？">如何做一个可以回复指令的TG机器人？</a></h2>
+                                    <div class="post-entry-categories"><a href='#'>科技</a><a href='#'>日常</a></div>
+                                    <h2><a href="#" title="如何做一个可以回复指令的TG机器人？">如何做一个可以回复指令的TG机器人？</a></h2>
                                 </div>
                                 <p class="focus">
-                                    <a href="detail.html" class="thumbnail">
+                                    <a href="#" class="thumbnail">
                                         <span class="item"><span class="thumb-span"><img src="img/25-04-05-2.png" class="thumb"></span></span>
                                     </a>
                                 </p>
@@ -104,11 +104,11 @@
                         <div class="ajax-load-con content excerpt-one">
                             <div class="content-box posts-image-box">
                                 <div class="posts-default-title">
-                                    <div class="post-entry-categories"><a href='detail.html'>新闻</a><a href='detail.html'>小米</a></div>
-                                    <h2><a href="detail.html" title="身家超钟睒睒！雷军成为中国新首富 小米市值突破1.4万亿港元">身家超钟睒睒！雷军成为中国新首富 小米市值突破1.4万亿港元</a></h2>
+                                    <div class="post-entry-categories"><a href='#'>新闻</a><a href='#'>小米</a></div>
+                                    <h2><a href="#" title="身家超钟睒睒！雷军成为中国新首富 小米市值突破1.4万亿港元">身家超钟睒睒！雷军成为中国新首富 小米市值突破1.4万亿港元</a></h2>
                                 </div>
                                 <p class="focus">
-                                    <a href="detail.html" class="thumbnail">
+                                    <a href="#" class="thumbnail">
                                         <span class="item"><span class="thumb-span"><img src="img/25.02.27-1.jpg" class="thumb"></span></span>
                                     </a>
                                 </p>
@@ -136,6 +136,7 @@
                     <!-- 侧边栏内容直接复用index.html，可复制粘贴 -->
                     <div class="widget widget_suxingme_postlist">
                         <h3><span>每日一曲</span></h3>
+                        <a>这个没什么用<br>(只有电脑端和平板端能看到，<br>就当个彩蛋，不定期更新)</a>
                         <ul class="recent-posts-widget">
                             <li class="one">
                                 <a href="https://www.bilibili.com/video/BV1BcV2zLEd4/?spm_id_from=333.337.search-card.all.click" title="【MV】うっちゃい/ゆーり【オリジナル】">
@@ -209,7 +210,7 @@
                             <h3><span>热门标签</span></h3>
                             <div class="widge_tags">
                                 <div class="tag-items">
-                                    <a href="cby.html" class="tag-item">陈老师</a>
+                                    <a href="rw/cby.html" class="tag-item">陈老师</a>
                                     <a href="dym.html" class="tag-item">邓一明</a>
                                     <a href="ghy.html" class="tag-item">关涵予</a>
                                     <a href="grh.html" class="tag-item">高瑞含</a>
@@ -286,10 +287,10 @@
     })();
     </script>
     <script>
-    // 1. 动态抓取 index.html 并解析文章
-    async function fetchArticlesFromIndex() {
+    // 1. 动态抓取多个页面的文章
+    async function fetchArticlesFromPage(url) {
       try {
-        const res = await fetch('index.html');
+        const res = await fetch(url);
         const text = await res.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(text, 'text/html');
@@ -316,16 +317,31 @@
           // 时间
           const dateEl = card.querySelector('.ico-time');
           const date = dateEl ? dateEl.textContent.replace(/^[^\\d]*/, '').trim() : '';
-          articles.push({ title, link, desc, img, cats, author, date });
+          // 来源页面
+          const source = url;
+          articles.push({ title, link, desc, img, cats, author, date, source });
         });
         return articles;
       } catch (e) {
-        console.error('抓取index.html失败', e);
+        console.error(`抓取${url}失败`, e);
         return [];
       }
     }
 
-    // 2. 渲染函数
+    // 2. 从所有页面获取文章
+    async function fetchAllArticles() {
+      const pages = ['index.html', 'index2.html', 'renwu.html'];
+      const allArticles = [];
+      
+      for (const page of pages) {
+        const articles = await fetchArticlesFromPage(page);
+        allArticles.push(...articles);
+      }
+      
+      return allArticles;
+    }
+
+    // 3. 渲染函数
     function renderResults(list) {
       const resultBox = document.getElementById('search-result-list');
       resultBox.innerHTML = '';
@@ -340,7 +356,7 @@
             <div class="content-box posts-image-box">
               <div class="posts-default-title">
                 <div class="post-entry-categories">
-                  ${item.cats.map(cat => `<a href="detail.html">${cat}</a>`).join('')}
+                  ${item.cats.map(cat => `<a href="#">${cat}</a>`).join('')}
                 </div>
                 <h2><a href="${item.link}" title="${item.title}">${item.title}</a></h2>
               </div>
@@ -369,7 +385,7 @@
       });
     }
 
-    // 3. 搜索逻辑
+    // 4. 搜索逻辑
     function doSearch(keyword, articles) {
       keyword = keyword.trim().toLowerCase();
       if (!keyword) {
@@ -377,16 +393,20 @@
         return;
       }
       const result = articles.filter(item =>
-        item.title.toLowerCase().includes(keyword)
-        // 你也可以加上desc/cats等字段的搜索
+        item.title.toLowerCase().includes(keyword) ||
+        item.desc.toLowerCase().includes(keyword) ||
+        item.cats.some(cat => cat.toLowerCase().includes(keyword)) ||
+        item.author.toLowerCase().includes(keyword)
       );
       renderResults(result);
     }
 
-    // 4. 页面加载时抓取并初始化
+    // 5. 页面加载时抓取并初始化
     let globalArticles = [];
-    fetchArticlesFromIndex().then(articles => {
+    fetchAllArticles().then(articles => {
       globalArticles = articles;
+      console.log(`成功加载 ${articles.length} 篇文章`);
+      
       // 自动填充搜索框
       const url = new URL(window.location.href);
       const kw = url.searchParams.get('keywords') || '';
